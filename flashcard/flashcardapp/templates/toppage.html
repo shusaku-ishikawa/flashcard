@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+    <style>
+        div.site-title {
+            margin: 5vh 10vw;
+            width: 80vw;
+            height: 40vh;
+            border: solid black 1px;
+            text-align: center;
+        }
+        div.category-container {
+            margin: 0vh 10vw;
+            width: 80vw;
+            height: 50vh;
+           
+            text-align: left;
+        }
+        a.category-link {
+            display: inline-block;
+            width: 17vw;
+            height: 7vh;
+            background: #4E9CAF;
+            padding: 10px;
+            margin: 1vh 1vw;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+           text-decoration: none
+        }
+    </style>
+{% endblock %}
+   
+{% block content %}
+    <div class="site-title">
+        <h1>絵カードで</h1>
+        <h1>言葉トレーニング</h1>
+    </div>
+    <div class="category-container">    
+        {% for category in object_list %}
+            <a class="category-link" href="{% url 'flashcardapp:mainpage' %}?category={{ category.id }}&mode=all_cards"> 
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+        <script>
+           
+        </script>
+{% endblock %}

@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load extratags %}
+  {% block style %}
+   <style>
+      
+
+
+  .css-slider-wrapper {
+    display: block;
+    background: #FFF;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+  /* Slider */
+  .slider {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    z-index: 0;
+    display: flex;
+    -webkit-transition: -webkit-transform 600ms;
+    transition: -webkit-transform 600ms, transform 600ms;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  .slider-inner-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+  }
+  .slider-inner-container > h1 {
+      position: absolute;
+      bottom: 10vh;
+      left: 45vw;
+      display: none;
+      font-size: 80px;
+      color:black;
+    }
+
+  .slider {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  button {
+      font-family: MyFont;
+      font-size: 20px;
+  }
+  .to-first-card-button {
+    width: 300px;
+    height: 60px;
+    background-color: yellow;
+    position: absolute;
+    top: 0vh;
+    left:0;
+  }
+  .change-mode-button {
+    width: 300px;
+    height: 60px;
+    background-color: lightgreen;
+    position: absolute;
+    top: 0vh;
+    right:0;
+  }
+  .show-answer-button {
+    width: 200px;
+    height: 40px;
+    background-color: lightgreen;
+    position: absolute;
+    top: 70vh;
+    right:0;
+  }
+  .answered-this-card-button,
+  .try-again-later-button {
+    width: 200px;
+    height: 40px;
+    background-color: lightgreen;
+    position: absolute;
+    top: 60vh;
+    right:0;
+  }
+  .to-previous {
+     position: absolute;
+     bottom:0;
+     left: 0;
+     width: 100px;
+     height: 100px;
+     background: #ffcc5c;
+     border-radius: 0 100px 0 0;
+     -moz-border-radius: 0 100px 0 0;
+     -webkit-border-radius: 0 100px 0 0;
+  }
+  .to-previous-triangle {
+    margin-top: 25px;
+    margin-left: 20px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 30px 30px 30px 0;
+    border-color: transparent white transparent transparent;
+
+  }
+  .to-next{
+    position: absolute;
+    bottom:0;
+     right: 0;
+     width: 100px;
+     height: 100px;
+     background: #ffcc5c;
+     border-radius: 100px 0 0 0;
+     -moz-border-radius: 100px 0 0 0;
+     -webkit-border-radius: 100px 0 0 0;
+  }
+  .to-next-triangle {
+    margin-top: 25px;
+    margin-left: 50px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 30px 0 30px 30px;
+    border-color: transparent transparent transparent white;
+
+  }
+
+  .slider-inner-container > img {
+    position: absolute;
+    left: 20vw;
+    top: 20vh;
+    height: 60vh;
+    width: 60vw;
+    opacity: 0;
+    z-index: -1;
+  }
+  .slide-1 > img {
+    right: 0;
+  }
+
+  .slider-inner-container > img {
+    -webkit-transition: opacity 800ms, -webkit-transform 800ms;
+    transition: transform 800ms, opacity 800ms;
+    -webkit-transition-delay: 1.2s; /* Safari */
+    transition-delay: 1.2s;
+  }
+
+
+  /* Number Pagination */
+  .number-pagination {
+    position: absolute;
+    top: 30px;
+    left: 50vw;
+    font-weight: bold;
+  }
+  
+  .number-pagination span {
+    font-size: 30px;
+    color: black;
+    letter-spacing: 4px;
+  }
+  
+ 
+  /* Slider Pagger */
+  .slider-pagination {
+    position: absolute;
+    bottom: 30px;
+    width: 575px;
+    left: 45vw;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+  }
+  .slider-pagination label {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    background: #fff;
+    margin: 0 10px;
+    cursor: pointer;
+  }
+ 
+  /* Responsive */
+  @media only screen and (max-width: 768px) {
+    .slider h1 {
+      font-size: 20px;
+    }
+  
+    .number-pagination {
+      right: 2%;
+    }
+    .slider-pagination {
+      left: 2%;
+    }
+  
+    .slider > img {
+      right: 2%;
+    }
+  
+    .slide-1 > img {
+      right: -110px;
+    }
+  }
+  </style>
+  {% endblock %}
+     
+  {% block content %}
+    {% if object_list %}
+      <!-- Slider Wrapper -->
+      <div class="css-slider-wrapper">
+          <div class="slider-pagination">
+            {% for card in object_list %}
+              <label for="slider_{{ forloop.counter }}" class="page{{ forloop.counter }}"></label>
+            {% endfor %}
+          </div>
+
+          {% for card in object_list %}
+            <input type="radio" name="slider" class="slide-radio{{ forloop.counter }}" checked id="slider_{{ forloop.counter }}">
+          {% endfor %}
+
+
+          {% for card in object_list %}
+            {% with  forloop.counter0|multiply:100 as offset %}
+            <style>
+              .slide-{{ forloop.counter }} {
+                background: #a9785c;
+                left: {{ offset }}%
+              }
+              .slide-radio{{ forloop.counter }}:checked ~ .slider {
+                -webkit-transform: translateX(-{{ offset }}%);
+                transform: translateX(-{{ offset }}%);
+              }
+              .slide-radio{{ forloop.counter }}:checked ~ .slider-pagination .page{{ forloop.counter }} {
+                width: 14px;
+                height: 14px;
+                border: 2px solid #ea2e49;
+                background: transparent;
+              }
+              .slide-radio{{ forloop.counter }}:checked ~ .slide-{{ forloop.counter }} h1,
+              .slide-radio{{ forloop.counter }}:checked ~ .slide-{{ forloop.counter }} > .slider-inner-container > img {
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+                opacity: 1;
+              }
+            </style>
+            {% endwith %}
+            <div class="slider slide-{{ forloop.counter }}" card_id = "{{ card.id }}">
+                <div class="slider-inner-container">
+                    <img src="{{ card.image.url }}" alt="">
+
+                    
+                    <h1 class="answer">{{ card.name }}</h1>
+                    <input type="hidden" class="answer-audio-url" value="{{ card.audio.url }}">
+                  
+                    {% if forloop.counter != 1 %}
+                    <button class="to-first-card-button">
+                      さいしょのページへ
+                    </button>
+                    {% endif %}
+                    
+                    
+                      {% if mistakenonly %}
+                        <button type="button" class="change-mode-button" mode="all-cards">
+                          すべてのもんだい
+                        </button>
+                      {% else %}
+                      <button class="change-mode-button" mode="mistaken-only">
+                        できなかったもんだい
+                      </button>
+                      {% endif %}
+                    </button>
+
+                    {% if not card|ismistakenby:user %}
+                      <button class="try-again-later-button">
+                        さいどちょうせん
+                      </button>
+                    {% else %}
+                      <button class="answered-this-card-button">
+                        せいかいした！
+                      </button>
+                    {% endif %}
+                    <button class="show-answer-button">
+                      こたえ
+                    </button>
+                    {% if forloop.counter != 1 %}
+                      <div class="move-btn to-previous" target="{{ forloop.counter|add:-1 }}">
+                        <div class="to-previous-triangle">
+
+                        </div>
+                      </div>
+                    {% endif %}
+                    {% if not forloop.last %}
+                    <div class="move-btn to-next" target="{{ forloop.counter|add:1 }}">
+                      <div class="to-next-triangle">
+
+                      </div>
+                    </div>
+
+                    {% endif %}
+                    <div class="number-pagination">
+                        <span>{{ forloop.counter }} / {{ object_list.count }}</span>
+                    </div>
+                </div>
+            </div>
+          {% endfor %}
+       {% else %}
+            カードがありません
+            <a href="{% url 'flashcardapp:toppage' %}">
+              カテゴリにもどる
+            </a>
+       {% endif %}
+    {% endblock %}
+
+    {% block script %}
+    <script>
+      var url = "{% url 'flashcardapp:mainpage' %}";
+      var category_id = "{{ category.id }}";
+
+      function addMistakenAsync(card_id) {
+        return $.ajax({
+            url: '{% url "flashcardapp:add_mistaken" %}',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                card_id: card_id
+            }
+        });
+      }
+      function removeMistakenAsync(card_id) {
+        return $.ajax({
+            url: '{% url "flashcardapp:remove_mistaken" %}',
+            method: 'post',
+            dataType: 'json',
+            data: {
+                card_id: card_id
+            }
+        });
+      }
+      
+      function playAudio(url) {
+        var audioElem = new Audio();
+        audioElem.src = url;
+        audioElem.play();
+      }
+      $(function() {
+        $wrapper = $('div.css-slider-wrapper');
+        $first_input = $('input#slider_1');
+        
+        $('.slider')
+        .on('click', '.move-btn' , function() {
+          // 表示ずみの答えをすべて隠す
+          $('.answer').hide();
+          $target = $('input#slider_' + $(this).attr('target'));
+          $target.click();
+        })
+        .on('click', '.to-first-card-button', function() {
+          $first_input.click();
+        })
+        .on('click', '.change-mode-button', function() {
+          var mode = $(this).attr('mode');
+          window.location.href = url + '?category=' + category_id + '&' + 'mode=' + mode;
+        })
+        .on('click', '.try-again-later-button', async function() {
+          var $this = $(this);
+          var card_id = $(this).closest('.slider').attr('card_id');
+          let result;
+          result = await addMistakenAsync(card_id);
+          if (!result.success) {
+            alert(result.error);
+            return
+          }
+          console.log(result)
+          $this
+          .removeClass('try-again-later-button')
+          .addClass('answered-this-card-button')
+          .html('せいかいした！')
+        })
+        .on('click', '.answered-this-card-button', async function() {
+          var $this = $(this);
+          var card_id = $(this).closest('.slider').attr('card_id');
+          let result;
+          result = await removeMistakenAsync(card_id);
+          if (!result.success) {
+            alert(result.error);
+            return
+          }
+          console.log(result)
+          $this
+          .addClass('try-again-later-button')
+          .removeClass('answered-this-card-button')
+          .html('さいどちょうせんする')
+        })
+        .on('click', '.show-answer-button',  function() {
+            var $parent = $(this).closest('.slider-inner-container');
+            var $answer = $parent.find('.answer');
+            var $audio_url = $parent.find('input.answer-audio-url');
+            setTimeout(() => $answer.show(), 1000);
+            playAudio($audio_url.val());
+        });
+        $wrapper.hide();
+        $first_input.click();
+        setTimeout(() => $wrapper.show(), 500);
+      });
+      
+    </script>
+  {% endblock %}

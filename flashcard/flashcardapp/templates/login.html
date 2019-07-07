@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+    <style>
+    </style>
+{% block style %}
+{% endblock %}
+   
+{% block content %}
+<form method="POST">
+<table>
+   {{ form }}
+</table>
+<input type="submit"  value="ログイン">
+{% csrf_token %}
+</form>
+{% endblock %}
+
+{% block script %}
+{% endblock %}
