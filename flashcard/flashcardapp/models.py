@@ -20,7 +20,10 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'カテゴリ'
         verbose_name_plural = 'カテゴリ'
-    
+    thumbnail = models.ImageField(
+        verbose_name = 'サムネイル',
+        upload_to = 'category_images/'
+    )
     name = models.CharField(
         verbose_name = 'カテゴリ名',
         max_length = 255

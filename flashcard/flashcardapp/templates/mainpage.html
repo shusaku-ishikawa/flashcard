@@ -40,10 +40,14 @@
   .slider-inner-container > h1 {
       position: absolute;
       bottom: 10vh;
-      left: 45vw;
+      left:0;
+      right: 0;
+      margin:auto;
       display: none;
-      font-size: 80px;
+      font-size: 80px!important;
       color:black;
+      text-align: center
+
     }
 
   .slider {
@@ -81,17 +85,17 @@
     right:0;
   }
   .show-answer-button {
-    width: 200px;
-    height: 40px;
+    width: 250px;
+    height: 60px;
     background-color: lightgreen;
     position: absolute;
-    top: 70vh;
+    top: 75vh;
     right:0;
   }
   .answered-this-card-button,
   .try-again-later-button {
-    width: 200px;
-    height: 40px;
+    width: 250px;
+    height: 60px;
     background-color: lightgreen;
     position: absolute;
     top: 60vh;
@@ -142,10 +146,15 @@
 
   .slider-inner-container > img {
     position: absolute;
-    left: 20vw;
-    top: 20vh;
-    height: 60vh;
-    width: 60vw;
+    left: 0;
+    right: 0;
+    top: 15vh;
+    margin :auto;
+    min-height: 40vh;
+    
+    max-height: 80vh;
+    max-width: 80vw;
+    width: auto;
     opacity: 0;
     z-index: -1;
   }
@@ -165,7 +174,7 @@
   .number-pagination {
     position: absolute;
     top: 30px;
-    left: 50vw;
+    left: 40vw;
     font-weight: bold;
   }
   
@@ -224,14 +233,14 @@
     {% if object_list %}
       <!-- Slider Wrapper -->
       <div class="css-slider-wrapper">
-          <div class="slider-pagination">
+          <div class="slider-pagination" style="display: none">
             {% for card in object_list %}
               <label for="slider_{{ forloop.counter }}" class="page{{ forloop.counter }}"></label>
             {% endfor %}
           </div>
 
           {% for card in object_list %}
-            <input type="radio" name="slider" class="slide-radio{{ forloop.counter }}" checked id="slider_{{ forloop.counter }}">
+            <input type="radio" name="slider" class="slide-radio{{ forloop.counter }}" {% if forloop.first %}checked{% endif %} id="slider_{{ forloop.counter }}">
           {% endfor %}
 
 
@@ -240,7 +249,7 @@
             <style>
               .slide-{{ forloop.counter }} {
                 background: #a9785c;
-                left: {{ offset }}%
+                left: {{ offset }}%;
               }
               .slide-radio{{ forloop.counter }}:checked ~ .slider {
                 -webkit-transform: translateX(-{{ offset }}%);
@@ -249,14 +258,18 @@
               .slide-radio{{ forloop.counter }}:checked ~ .slider-pagination .page{{ forloop.counter }} {
                 width: 14px;
                 height: 14px;
-                border: 2px solid #ea2e49;
-                background: transparent;
+                border: 2px solid black;
+                
               }
-              .slide-radio{{ forloop.counter }}:checked ~ .slide-{{ forloop.counter }} h1,
+              
               .slide-radio{{ forloop.counter }}:checked ~ .slide-{{ forloop.counter }} > .slider-inner-container > img {
                 -webkit-transform: translateX(0);
                 transform: translateX(0);
                 opacity: 1;
+              }
+              .slide-radio{{ forloop.counter }}:checked {
+                background-color: blue;
+                color: black;
               }
             </style>
             {% endwith %}
@@ -317,9 +330,9 @@
                     </div>
 
                     {% endif %}
-                    <div class="number-pagination">
+                    <!-- <div class="number-pagination">
                         <span>{{ forloop.counter }} / {{ object_list.count }}</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
           {% endfor %}
@@ -421,6 +434,10 @@
             var $audio_url = $parent.find('input.answer-audio-url');
             setTimeout(() => $answer.show(), 1000);
             playAudio($audio_url.val());
+        })
+        .on('click', 'input[class^="slide-radio"]', function() {
+          alert('click')
+          $('.answer').hide();
         });
         $wrapper.hide();
         $first_input.click();
