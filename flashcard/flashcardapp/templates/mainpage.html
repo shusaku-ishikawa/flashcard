@@ -60,9 +60,18 @@
     height: 60px;
     background-color: yellow;
     position: absolute;
-    top: 0vh;
+    top: 63px;
     left:0;
   }
+  .to-top-page-button {
+    width: 300px;
+    height: 60px;
+    background-color: teal;
+    position: absolute;
+    top: ovh;
+    left:0;
+  }
+
   .change-mode-button {
     width: 300px;
     height: 60px;
@@ -264,6 +273,10 @@
                       さいしょのページへ
                     </button>
                     {% endif %}
+               
+                    <button class="to-top-page-button">
+                      トップページへ
+                    </button>
                     
                     
                       {% if mistakenonly %}
@@ -321,7 +334,9 @@
     {% block script %}
     <script>
       var url = "{% url 'flashcardapp:mainpage' %}";
+      var toppageurl = "{% url 'flashcardapp:toppage' %}";
       var category_id = "{{ category.id }}";
+      
 
       function addMistakenAsync(card_id) {
         return $.ajax({
@@ -362,6 +377,9 @@
         })
         .on('click', '.to-first-card-button', function() {
           $first_input.click();
+        })
+        .on('click', '.to-top-page-button', function() {
+          window.location.href = toppageurl;
         })
         .on('click', '.change-mode-button', function() {
           var mode = $(this).attr('mode');

@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*",]
 
+DEFAULT_FILE_STORAGE = 'flashcardapp.models.MyFileSystemStorage'
 
 # Application definition
 

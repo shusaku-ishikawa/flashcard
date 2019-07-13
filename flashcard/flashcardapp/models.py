@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User 
-# Create your models here.
+import unicodedata
+from django.core.files.storage import FileSystemStorage
+
+
+class MyFileSystemStorage(FileSystemStorage):
+    """
+    Convert unicode characters in name to ASCII characters.
+    """
+    def get_valid_name(self, name):
+        name = unicodedata.normalize('NFC', name)
+        return super(MyFileSystemStorage, self).get_valid_name(name)
+
+
 class Category(models.Model):
 
     def __str__(self):
