@@ -12,9 +12,7 @@
             text-align: center;
         }
         div.category-container {
-            width: 100%;
             height: 50vh;
-           
             text-align: left;
         }
         a.category-link {
@@ -46,7 +44,7 @@
         </div>
         <div class="category-container row">    
             {% for category in object_list %}
-                <div class="col-3" > 
+                <div class="col-md-3 col-sm-4 col-xs-12" > 
                     <a class="category-link row" href="{% url 'flashcardapp:mainpage' %}?category={{ category.id }}&mode=all_cards">
                         <img class="rounded-circle" src="{{ category.thumbnail.url }}">
                         {{ category.name }}

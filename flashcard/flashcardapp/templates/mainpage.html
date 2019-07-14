@@ -60,16 +60,14 @@
       font-size: 20px;
   }
   .to-first-card-button {
-    width: 300px;
-    height: 60px;
+   
     background-color: yellow;
     position: absolute;
     top: 63px;
     left:0;
   }
   .to-top-page-button {
-    width: 300px;
-    height: 60px;
+  
     background-color: teal;
     position: absolute;
     top: ovh;
@@ -77,16 +75,14 @@
   }
 
   .change-mode-button {
-    width: 300px;
-    height: 60px;
+    
     background-color: lightgreen;
     position: absolute;
     top: 0vh;
     right:0;
   }
   .show-answer-button {
-    width: 250px;
-    height: 60px;
+   
     background-color: lightgreen;
     position: absolute;
     top: 75vh;
@@ -94,8 +90,7 @@
   }
   .answered-this-card-button,
   .try-again-later-button {
-    width: 250px;
-    height: 60px;
+  
     background-color: lightgreen;
     position: absolute;
     top: 60vh;
@@ -152,8 +147,8 @@
     margin :auto;
     min-height: 40vh;
     
-    max-height: 80vh;
-    max-width: 80vw;
+    max-height: 70vh;
+    max-width: 70vw;
     width: auto;
     opacity: 0;
     z-index: -1;
@@ -169,62 +164,81 @@
     transition-delay: 1.2s;
   }
 
+ 
 
-  /* Number Pagination */
-  .number-pagination {
-    position: absolute;
-    top: 30px;
-    left: 40vw;
-    font-weight: bold;
-  }
-  
-  .number-pagination span {
-    font-size: 30px;
-    color: black;
-    letter-spacing: 4px;
-  }
-  
- 
-  /* Slider Pagger */
-  .slider-pagination {
-    position: absolute;
-    bottom: 30px;
-    width: 575px;
-    left: 45vw;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-  }
-  .slider-pagination label {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    background: #fff;
-    margin: 0 10px;
-    cursor: pointer;
-  }
- 
   /* Responsive */
-  @media only screen and (max-width: 768px) {
+  @media (min-width: 1281px) {
+    button {
+      width: 300px;
+      height: 70px;
+    }
+    
+  }
+
+  /* 
+    ##Device = Laptops, Desktops
+    ##Screen = B/w 1025px to 1280px
+  */
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    button {
+      width: 300px;
+      height: 70px;
+    }
+    
+  }
+
+  /* 
+    ##Device = Tablets, Ipads (portrait)
+    ##Screen = B/w 768px to 1024px
+  */
+
+  @media (min-width: 768px) and (max-width: 1024px) {
+    button {
+      width: 250px;
+      height: 60px;
+    }
+    
+  }
+
+  /* 
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+  */
+
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    button {
+      width: 250px;
+      height: 60px;
+    }
+  }
+
+  /* 
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+  */
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    
+   
+  }
+
+  /* 
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+  */
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    button {
+      width: 130px;
+      height: 40px;
+      font-size: 10px;
+    }
     .slider h1 {
-      font-size: 20px;
+      font-size: 40px!important
     }
-  
-    .number-pagination {
-      right: 2%;
-    }
-    .slider-pagination {
-      left: 2%;
-    }
-  
-    .slider > img {
-      right: 2%;
-    }
-  
-    .slide-1 > img {
-      right: -110px;
-    }
+   
+    
   }
   </style>
   {% endblock %}
