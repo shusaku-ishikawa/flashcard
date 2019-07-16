@@ -74,13 +74,6 @@
     left:0;
   }
 
-  .change-mode-button {
-    
-    background-color: lightgreen;
-    position: absolute;
-    top: 0vh;
-    right:0;
-  }
   .show-answer-button {
    
     background-color: lightgreen;
@@ -88,14 +81,7 @@
     top: 75vh;
     right:0;
   }
-  .answered-this-card-button,
-  .try-again-later-button {
-  
-    background-color: lightgreen;
-    position: absolute;
-    top: 60vh;
-    right:0;
-  }
+
   .to-previous {
      position: absolute;
      bottom:0;
@@ -244,14 +230,7 @@
       top: 70vh;
       right:0;
     }
-    .answered-this-card-button,
-    .try-again-later-button {
-    
-      background-color: lightgreen;
-      position: absolute;
-      top: 60vh;
-      right:0;
-    }
+ 
     .to-previous {
       position: absolute;
       bottom:0;
@@ -363,27 +342,8 @@
                       トップページへ
                     </button>
                     
-                    
-                    {% if mistakenonly %}
-                      <button type="button" class="change-mode-button" mode="all-cards">
-                        すべてのもんだい
-                      </button>
-                    {% else %}
-                    <button class="change-mode-button" mode="mistaken-only">
-                      できなかったもんだい
-                    </button>
-                    {% endif %}
-              
-
-                    {% if not card|ismistakenby:user %}
-                      <button class="try-again-later-button">
-                        さいどちょうせん
-                      </button>
-                    {% else %}
-                      <button class="answered-this-card-button">
-                        せいかいした！
-                      </button>
-                    {% endif %}
+        
+                
                     <button class="show-answer-button">
                       こたえ
                     </button>
@@ -410,7 +370,7 @@
           {% endfor %}
        {% else %}
             カードがありません
-            <a href="{% url 'flashcardapp:toppage' %}">
+            <a href="{% url 'flashcardapp:demotoppage' %}">
               カテゴリにもどる
             </a>
        {% endif %}
@@ -418,32 +378,10 @@
 
     {% block script %}
     <script>
-      var url = "{% url 'flashcardapp:mainpage' %}";
-      var toppageurl = "{% url 'flashcardapp:toppage' %}";
+      var url = "{% url 'flashcardapp:demomainpage' %}";
+      var toppageurl = "{% url 'flashcardapp:demotoppage' %}";
       var category_id = "{{ category.id }}";
-      
-
-      function addMistakenAsync(card_id) {
-        return $.ajax({
-            url: '{% url "flashcardapp:add_mistaken" %}',
-            method: 'post',
-            dataType: 'json',
-            data: {
-                card_id: card_id
-            }
-        });
-      }
-      function removeMistakenAsync(card_id) {
-        return $.ajax({
-            url: '{% url "flashcardapp:remove_mistaken" %}',
-            method: 'post',
-            dataType: 'json',
-            data: {
-                card_id: card_id
-            }
-        });
-      }
-      
+          
       function playAudio(url) {
         var audioElem = new Audio();
         audioElem.src = url;
@@ -465,40 +403,6 @@
         })
         .on('click', '.to-top-page-button', function() {
           window.location.href = toppageurl;
-        })
-        .on('click', '.change-mode-button', function() {
-          var mode = $(this).attr('mode');
-          window.location.href = url + '?category=' + category_id + '&' + 'mode=' + mode;
-        })
-        .on('click', '.try-again-later-button', async function() {
-          var $this = $(this);
-          var card_id = $(this).closest('.slider').attr('card_id');
-          let result;
-          result = await addMistakenAsync(card_id);
-          if (!result.success) {
-            alert(result.error);
-            return
-          }
-          console.log(result)
-          $this
-          .removeClass('try-again-later-button')
-          .addClass('answered-this-card-button')
-          .html('せいかいした！')
-        })
-        .on('click', '.answered-this-card-button', async function() {
-          var $this = $(this);
-          var card_id = $(this).closest('.slider').attr('card_id');
-          let result;
-          result = await removeMistakenAsync(card_id);
-          if (!result.success) {
-            alert(result.error);
-            return
-          }
-          console.log(result)
-          $this
-          .addClass('try-again-later-button')
-          .removeClass('answered-this-card-button')
-          .html('さいどちょうせんする')
         })
         .on('click', '.show-answer-button',  function() {
             var $parent = $(this).closest('.slider-inner-container');

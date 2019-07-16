@@ -27,7 +27,34 @@ class Login(LoginView):
 class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'toppage.html'
+
+
+class DemoTopPage(generic.ListView):
+    model = Category
+    template_name = 'demotoppage.html'
+    def get_queryset(self):
+        q = Category.objects.all()
+        return q
+
+class DemoMainPage(generic.ListView):
+    model = Card
+    template_name = 'demomainpage.html'
     
+    def get_queryset(self):
+        mode = self.request.GET.get('mode')
+        category_id = self.request.GET.get('category')
+        category = get_object_or_404(Category, id=category_id)
+        all_cards = Card.objects.filter(category = category)
+        return all_cards
+
+    def get_context_data(self, **kwargs):
+        ctx = super(DemoMainPage, self).get_context_data(**kwargs)
+        category_id = self.request.GET.get('category')
+        category = get_object_or_404(Category, id=category_id)
+        ctx['category'] = category
+  
+        return ctx
+
 class TopPage(LoginRequiredMixin, generic.ListView):
     model = Category
     template_name = 'toppage.html'
